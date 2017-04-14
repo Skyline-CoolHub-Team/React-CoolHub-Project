@@ -1,3 +1,6 @@
+/**
+ * The Star page of CoolHub App.
+ */
 import React, {Component} from 'react'
 
 export default class Star extends Component {

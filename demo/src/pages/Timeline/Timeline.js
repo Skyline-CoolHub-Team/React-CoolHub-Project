@@ -1,3 +1,6 @@
+/**
+ * The Timeline page of CoolHub App.
+ */
 import React, {Component} from 'react'
 
 export default class Timeline extends Component {

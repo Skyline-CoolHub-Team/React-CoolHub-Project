@@ -1,5 +1,5 @@
 /**
- * 全局的底部导航模块.
+ * The CoolHub BottomNavigation component.
  */
 
 /* === Import BottomNavigation === */
