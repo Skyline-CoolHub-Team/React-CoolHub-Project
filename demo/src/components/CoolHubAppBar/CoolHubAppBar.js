@@ -92,6 +92,7 @@ provider.addScope('repo,user')
           isSignIn: true
         })
         console.log(token)
+        localStorage.setItem('gitHubAcc',token)
         dealWithToken(token)
       }
       }).catch(function (error) {
@@ -110,7 +111,6 @@ provider.addScope('repo,user')
       instance.get('/user')
       .then(function (response) {
         self.props.toggleLoading()
-        // console.log(response, response.data)
       })
       .catch(function (error) {
         console.log(error)

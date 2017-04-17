@@ -1,9 +1,12 @@
 import axios from 'axios'
+
+let accToken = localStorage.getItem('gitHubAcc')
+console.log(accToken)
 //获取用户仓库列表
 export function getReposList(re){
    let instance = axios.create({
         baseURL: 'https://api.github.com/',
-        headers: {'Authorization': 'token ' + '98e5b99d0b6d411c5055760b0a9183368a6ba83c'}
+        headers: {'Authorization': 'token ' + accToken}
       })
       instance.get('/users/raszxcv/repos')
       .then(function (response) {
@@ -21,7 +24,7 @@ export function getReposList(re){
 export function getReposContentList(re,repo,path){
        let instance = axios.create({
         baseURL: 'https://api.github.com/',
-        headers: {'Authorization': 'token ' + '98e5b99d0b6d411c5055760b0a9183368a6ba83c'}
+        headers: {'Authorization': 'token ' + accToken}
       })
       instance.get(`/repos/raszxcv/${repo}/contents/${path}`)
       .then(function (response) {

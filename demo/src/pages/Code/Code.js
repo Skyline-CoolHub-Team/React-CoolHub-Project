@@ -44,7 +44,7 @@ export default class Code extends Component {
       reposList:[],
     }
     getReposList(this)
-    console.log(this.props.match)
+
   }
       fileType(obj){
         if(obj.name==='README.md'){
