@@ -24,7 +24,8 @@ const style = {
   position: 'fixed',
   width: '100%',
   bottom: 0,
-  left: 0
+  left: 0,
+  textAlign:'center'
 }
 
 export default class CoolHubBottomNavigation extends Component {
@@ -42,7 +43,7 @@ export default class CoolHubBottomNavigation extends Component {
             <BottomNavigationItem
               label="Code"
               icon={codeIcon}
-              containerElement={<Link to="/" />}
+              containerElement={<Link to="/Code" />}
               onTouchTap={() => this.select(0)}
               />
             <BottomNavigationItem

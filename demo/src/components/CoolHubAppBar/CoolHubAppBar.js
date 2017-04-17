@@ -30,7 +30,11 @@ firebase.initializeApp(config)
 /**
  * Github oAuth config
  */
-
+const style = {
+  position: 'fixed',
+  width: '100%',
+  top:0,
+}
 
 
 export default class CoolHubAppBar extends Component {
@@ -83,10 +87,11 @@ provider.addScope('repo,user')
         self.props.toggleLoading()
         var token = result.credential.accessToken
         var user = result.user
-        console.log(token, user, result)
+        // console.log(token, user, result)
         self.setState({
           isSignIn: true
         })
+        console.log(token)
         dealWithToken(token)
       }
       }).catch(function (error) {
@@ -102,10 +107,10 @@ provider.addScope('repo,user')
         baseURL: 'https://api.github.com/',
         headers: {'Authorization': 'token ' + token}
       })
-      instance.get('/events')
+      instance.get('/user')
       .then(function (response) {
         self.props.toggleLoading()
-        console.log(response, response.data)
+        // console.log(response, response.data)
       })
       .catch(function (error) {
         console.log(error)
@@ -130,7 +135,7 @@ provider.addScope('repo,user')
 
     return (
       <MuiThemeProvider>
-        <div>
+        <div style={style}>
         <AppBar
           title={<span>Code</span>}
           iconElementRight={<FlatButton label={this.state.isEdit ? 'Done' : 'Edit'} onClick={this.handleEdit} />}
