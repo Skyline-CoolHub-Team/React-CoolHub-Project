@@ -17,7 +17,7 @@ import {
   Link
 } from 'react-router-dom'
 
-import {getReposContent,getReposContentList} from './getRepos'
+import {getReposContent,getReposContentList,getfileContent} from './getRepos'
 import {getReposList} from './getRepos'
 import content from './content'
 const style ={
@@ -35,21 +35,40 @@ class reposContent extends Component {
         this.state={
             reposRoot:[],
         }
-        this.getContentList = this.getContentList.bind(this)
+        // this.getContentList = this.getContentList.bind(this)
         this.fileType = this.fileType.bind(this)
-        getReposContentList(this,this.props.match.params.rep,this.props.match.params['0']?this.props.match.params['0']:'')
-        console.log('我是仓库内容列表页')
+        getReposContentList(this,this.props.match.params.rep,'')
+        // console.log('我是仓库内容列表页')
     }
-    getContentList(rep,path){
-        getReposContentList(this,rep,path)       
-    }
+    // getContentList(rep,path){
+    //     let reg = /\..+/
+    //     if(reg.test(this.props.match.params['0'])){
+    //         getfileContent(this,rep,path) 
+    //         return
+    //     }
+    //     getReposContentList(this,rep,path)       
+    // }
     fileType(obj){
-        if(obj.name==='README.md'){
-            return 'description'
-        }else if(obj.type==='dir'){
+        let reg = /\..+/
+        if(obj.type==='dir'){
             return 'folder'
         }else if(obj.type==='file'){
-            return 'code'
+            switch(reg.exec(obj.name)[0]){
+                case '.svg':
+                case '.png':
+                case '.jpg':
+                    return 'insert_photo'
+                    break
+                case '.md':
+                    return 'description'
+                    break
+                case '.css':
+                case '.min.css':
+                    return 'palette'
+                    break
+                default:
+                    return 'code'
+            }
         }
     }
 

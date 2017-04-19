@@ -17,8 +17,10 @@ import {
   Link
 } from 'react-router-dom'
 
-import {getReposContentList} from './getRepos'
+import {getReposContentList,getfileContent} from './getRepos'
 import reposContent from './reposContent'
+import Prism from 'prismjs'
+import '../../prism.css'
 const style ={
   position:'fixed',
   bottom:'56px',
@@ -31,12 +33,21 @@ const style ={
 class content extends Component {
     constructor(props){
         super(props)
-        console.log(this.props.match)
         this.state={
             reposRoot:[],
+            fileContent:''
         }
-        console.log('我是仓库内容文件列')
-        getReposContentList(this,this.props.match.params.rep,this.props.match.params['0'])
+        // console.log('我是仓库内容文件列')
+        let reg = /\..+/
+        console.log(this.props.match.params['0'])
+        console.log(Prism)
+        if(reg.test(this.props.match.params['0'])){ 
+            getfileContent(this,this.props.match.params.rep,this.props.match.params['0']) 
+        }else{
+            console.log(4565498)
+            getReposContentList(this,this.props.match.params.rep,this.props.match.params['0'])
+        }
+        
         this.mounted =false
         //监听浏览器后退事件,重新获取数据
         window.addEventListener('popstate',()=>{
@@ -49,28 +60,64 @@ class content extends Component {
     }
 
     getContentList(rep,path){
-            getReposContentList(this,rep,path)               
+        let reg = /\..+/
+        console.log(reg.test(path))
+        if(reg.test(path)){        
+            getfileContent(this,rep,path) 
+            return
+        }else{
+            getReposContentList(this,rep,path) 
+        }
+                  
     }
-    //判断文件类型,目前只区分了md,文件,文件夹
+    //判断文件类型,
     fileType(obj){
-        if(obj.name==='README.md'){
-            return 'description'
-        }else if(obj.type==='dir'){
+        let reg = /\..+/
+        if(obj.type==='dir'){
             return 'folder'
         }else if(obj.type==='file'){
-            return 'code'
+            switch(reg.exec(obj.name)[0]){
+                case '.svg':
+                case '.png':
+                case '.jpg':
+                    return 'insert_photo'
+                    break
+                case '.md':
+                    return 'description'
+                    break
+                case '.css':
+                case '.min.css':
+                    return 'palette'
+                    break
+                default:
+                    return 'code'
+            }
         }
+        
     }
     componentWillUnmount(){
         this.mounted = true    
     }
     render(){
+        let reg = /\..+/
         let self = this
-            return (
+        console.log(this.props.match.params['0'])
+     if(reg.test(this.props.match.params['0'])){
+         return (
+             <div style={style}>
+                    <pre className="language-markup">
+                        <code  dangerouslySetInnerHTML={{__html:Prism.highlight(this.state.fileContent,Prism.languages.js)}}>
+                            
+                        </code>
+                    </pre>          
+             </div>
+         )
+     }else{
+        return (
                 <div style={style}>
                 <MuiThemeProvider>
                     <List>
-                        {console.log(self.props.match)}          
+                  
                         {this.state.reposRoot.map((lis,index) => {
                             return <Link to={`${self.props.match.url}/${lis.name}`} key={index}>
                                     <ListItem  
@@ -85,6 +132,8 @@ class content extends Component {
                 </MuiThemeProvider>
             </div>
             )
+     }
+            
         }
         
     }

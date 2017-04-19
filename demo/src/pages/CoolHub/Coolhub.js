@@ -47,10 +47,8 @@ export default class CoolHub extends Component {
               <Redirect exact path="/" to="/Code"/>
               <Route exact path="/timeline" component={Timeline} />
               <Route exact path="/star" component={Star} />
-              <Route exact path="/profile" component={Profile} />
-              
-            </Switch>   
-            
+              <Route exact path="/profile" component={Profile} />         
+            </Switch>              
             <BottomNavigation />
           </div>
         </Router>

@@ -30,7 +30,6 @@ const style ={
   top:'64px',
   width:'100%',
   overflow:'auto'
-
 }
 const list = {
   display:'flex',
@@ -44,6 +43,7 @@ export default class Code extends Component {
       reposList:[],
     }
     getReposList(this)
+
 
   }
       fileType(obj){
@@ -67,7 +67,7 @@ export default class Code extends Component {
         return null
       }
     }
-    const reposList = ({match}) => {     
+    const reposList = () => {     
       return (   
         <div style={style}>
         <MuiThemeProvider>

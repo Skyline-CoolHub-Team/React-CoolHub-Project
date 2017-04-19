@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import {Base64} from 'js-base64'
 let accToken = localStorage.getItem('gitHubAcc')
 console.log(accToken)
 //获取用户仓库列表
@@ -28,11 +28,18 @@ export function getReposContentList(re,repo,path){
       })
       instance.get(`/repos/raszxcv/${repo}/contents/${path}`)
       .then(function (response) {
-        let contentList =[]     
+        let contentList =[]    
         response.data.map(lis => {
             contentList.push({type:lis.type,name:lis.name})
         })
+            contentList.sort((a,b) => {
+                if(a.type < b.type){
+                    return -1
+                }else {
+                    return 1
+                }
 
+            })
             re.setState({reposRoot:contentList})
         
      
@@ -41,4 +48,21 @@ export function getReposContentList(re,repo,path){
         console.log(error)
       })
 }  
+
+//获取文件内容
+export function getfileContent(re,repo,path){
+       let instance = axios.create({
+        baseURL: 'https://api.github.com/',
+        headers: {'Authorization': 'token ' + accToken}
+      })
+      instance.get(`/repos/raszxcv/${repo}/contents/${path}`)
+      .then(function (response) {  
+          console.log(response)
+          console.log
+            re.setState({fileContent:Base64.decode(response.data.content)})
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+} 
     
