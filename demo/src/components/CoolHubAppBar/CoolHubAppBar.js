@@ -45,7 +45,7 @@ export default class CoolHubAppBar extends Component {
 
   oAuth = () => {
     var provider = new firebase.auth.GithubAuthProvider()
-provider.addScope('repo,user')
+    provider.addScope('repo,user,repo:status')
     firebase.auth().signInWithRedirect(provider)
     // Change the codePageLoading state
   }
@@ -83,10 +83,8 @@ provider.addScope('repo,user')
         self.props.toggleLoading()
         var token = result.credential.accessToken
         var user = result.user
+        localStorage.setItem('token', token)
         console.log(token, user, result)
-        self.setState({
-          isSignIn: true
-        })
         dealWithToken(token)
       }
       }).catch(function (error) {
@@ -98,11 +96,14 @@ provider.addScope('repo,user')
       })
 
     function dealWithToken (token) {
-      var instance = axios.create({
+      self.setState({
+        isSignIn: true
+      })
+      const instance = axios.create({
         baseURL: 'https://api.github.com/',
         headers: {'Authorization': 'token ' + token}
       })
-      instance.get('/events')
+      instance.get('/user')
       .then(function (response) {
         self.props.toggleLoading()
         console.log(response, response.data)

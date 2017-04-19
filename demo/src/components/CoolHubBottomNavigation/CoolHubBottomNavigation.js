@@ -24,7 +24,8 @@ const style = {
   position: 'fixed',
   width: '100%',
   bottom: 0,
-  left: 0
+  left: 0,
+  zIndex: 1000
 }
 
 export default class CoolHubBottomNavigation extends Component {
