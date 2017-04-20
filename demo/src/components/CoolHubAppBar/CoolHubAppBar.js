@@ -19,19 +19,14 @@ import axios from 'axios'
  * firebase config
  */
 const config = {
-    apiKey: "AIzaSyAzNIcauGMf_V_N7_BY4Hl7jrhYZv5XzWQ",
-    authDomain: "react-coolhub.firebaseapp.com",
-    databaseURL: "https://react-coolhub.firebaseio.com",
-    projectId: "react-coolhub",
-    storageBucket: "react-coolhub.appspot.com",
-    messagingSenderId: "205032541101"
-  }
+  apiKey: "AIzaSyAzNIcauGMf_V_N7_BY4Hl7jrhYZv5XzWQ",
+  authDomain: "react-coolhub.firebaseapp.com",
+  databaseURL: "https://react-coolhub.firebaseio.com",
+  projectId: "react-coolhub",
+  storageBucket: "react-coolhub.appspot.com",
+  messagingSenderId: "205032541101"
+}
 firebase.initializeApp(config)
-/**
- * Github oAuth config
- */
-
-
 
 export default class CoolHubAppBar extends Component {
   constructor(props) {
@@ -84,6 +79,7 @@ export default class CoolHubAppBar extends Component {
         var token = result.credential.accessToken
         var user = result.user
         localStorage.setItem('token', token)
+        localStorage.setItem('uid', user.uid)
         console.log(token, user, result)
         dealWithToken(token)
       }
@@ -107,6 +103,7 @@ export default class CoolHubAppBar extends Component {
       .then(function (response) {
         self.props.toggleLoading()
         console.log(response, response.data)
+        localStorage.setItem('user', response.data.login)
       })
       .catch(function (error) {
         console.log(error)

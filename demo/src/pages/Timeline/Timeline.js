@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
-/* ui */
 import {Tabs, Tab} from 'material-ui/Tabs'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Avatar from 'material-ui/Avatar'
@@ -57,11 +56,12 @@ class Timeline extends Component {
     this.state = {
       personalTimeline: [],
       worldwideTimeline: [],
-      value: 'b',
+      value: localStorage.getItem('timelinetab') || 'a', /* 获取后退后的tab状态 */
     }
   }
 
   handleChange = (value) => {
+    localStorage.setItem('timelinetab', value)
     this.setState({
       value: value,
     })
@@ -109,10 +109,12 @@ class Timeline extends Component {
     })
   }
   componentDidMount() {
+    const id = localStorage.getItem('uid')
     this.loadData()
     if (!token) alert('please enter the code paeg and sign in.')
   }
   render() {
+    console.log(localStorage.getItem('timelinetab'))
     return (
       <div>
         <MuiThemeProvider>
