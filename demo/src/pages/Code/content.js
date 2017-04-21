@@ -1,26 +1,13 @@
+
 import CircularProgress from 'material-ui/CircularProgress'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-
 import {List, ListItem} from 'material-ui/List';
-import ContentInbox from 'material-ui/svg-icons/content/inbox';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
-import ContentSend from 'material-ui/svg-icons/content/send';
-import ContentDrafts from 'material-ui/svg-icons/content/drafts';
-import Divider from 'material-ui/Divider';
-import ActionInfo from 'material-ui/svg-icons/action/info';
 import FontIcon from 'material-ui/FontIcon';
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Link
-} from 'react-router-dom'
-
+import {Link} from 'react-router-dom'
 import {getReposContentList,getfileContent} from './getRepos'
-import reposContent from './reposContent'
-import Prism from 'prismjs'
-import '../../prism.css'
+import hijs from 'highlight.js'
+import '../../test.css'
 const style ={
   position:'fixed',
   bottom:'56px',
@@ -36,19 +23,18 @@ class content extends Component {
         this.state={
             reposRoot:[],
             fileContent:''
-        }
-        // console.log('我是仓库内容文件列')
+        }   
+    }
+    componentWillMount(){
         let reg = /\..+/
-        console.log(this.props.match.params['0'])
-        console.log(Prism)
         if(reg.test(this.props.match.params['0'])){ 
             getfileContent(this,this.props.match.params.rep,this.props.match.params['0']) 
         }else{
-            console.log(4565498)
+            console.log(hijs)
             getReposContentList(this,this.props.match.params.rep,this.props.match.params['0'])
         }
-        
         this.mounted =false
+        
         //监听浏览器后退事件,重新获取数据
         window.addEventListener('popstate',()=>{
             //防止组件卸载后由异步使用setState造成的错误
@@ -57,8 +43,8 @@ class content extends Component {
             } 
             return
         })
+        
     }
-
     getContentList(rep,path){
         let reg = /\..+/
         console.log(reg.test(path))
@@ -98,18 +84,29 @@ class content extends Component {
     componentWillUnmount(){
         this.mounted = true    
     }
+    componentWillUpdate(){
+        
+    }
+    componentDidMount(){
+        hijs.initHighlightingOnLoad()
+        
+    }
+    componentDidUpdate(){
+        
+    }
     render(){
         let reg = /\..+/
-        let self = this
-        console.log(this.props.match.params['0'])
+        let self = this  
      if(reg.test(this.props.match.params['0'])){
-         return (
+         
+         return (  
              <div style={style}>
-                    <pre className="language-markup">
-                        <code  dangerouslySetInnerHTML={{__html:Prism.highlight(this.state.fileContent,Prism.languages.js)}}>
-                            
-                        </code>
-                    </pre>          
+                 <pre className="hljs">
+                    <code dangerouslySetInnerHTML={{__html:hijs.highlightAuto(this.state.fileContent).value}}>
+
+                    </code>
+                 </pre>
+                                
              </div>
          )
      }else{
@@ -117,7 +114,6 @@ class content extends Component {
                 <div style={style}>
                 <MuiThemeProvider>
                     <List>
-                  
                         {this.state.reposRoot.map((lis,index) => {
                             return <Link to={`${self.props.match.url}/${lis.name}`} key={index}>
                                     <ListItem  

@@ -1,25 +1,10 @@
-import CircularProgress from 'material-ui/CircularProgress'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {List, ListItem} from 'material-ui/List';
-import ContentInbox from 'material-ui/svg-icons/content/inbox';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
-import ContentSend from 'material-ui/svg-icons/content/send';
-import ContentDrafts from 'material-ui/svg-icons/content/drafts';
-import Divider from 'material-ui/Divider';
-import ActionInfo from 'material-ui/svg-icons/action/info';
 import FontIcon from 'material-ui/FontIcon';
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Link
-} from 'react-router-dom'
-
-import {getReposContent,getReposContentList,getfileContent} from './getRepos'
-import {getReposList} from './getRepos'
-import content from './content'
+import {Link} from 'react-router-dom'
+import {getReposContentList,testt} from './getRepos'
 const style ={
   position:'fixed',
   bottom:'56px',
@@ -35,19 +20,9 @@ class reposContent extends Component {
         this.state={
             reposRoot:[],
         }
-        // this.getContentList = this.getContentList.bind(this)
         this.fileType = this.fileType.bind(this)
         getReposContentList(this,this.props.match.params.rep,'')
-        // console.log('我是仓库内容列表页')
     }
-    // getContentList(rep,path){
-    //     let reg = /\..+/
-    //     if(reg.test(this.props.match.params['0'])){
-    //         getfileContent(this,rep,path) 
-    //         return
-    //     }
-    //     getReposContentList(this,rep,path)       
-    // }
     fileType(obj){
         let reg = /\..+/
         if(obj.type==='dir'){
@@ -73,8 +48,7 @@ class reposContent extends Component {
     }
 
     render(){
-        let self = this    
-        
+        let self = this      
             return (
              <div style={style}>
             <MuiThemeProvider>

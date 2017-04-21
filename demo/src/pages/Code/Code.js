@@ -6,14 +6,7 @@ import CircularProgress from 'material-ui/CircularProgress'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import {List, ListItem} from 'material-ui/List';
-import ContentInbox from 'material-ui/svg-icons/content/inbox';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
-import ContentSend from 'material-ui/svg-icons/content/send';
-import ContentDrafts from 'material-ui/svg-icons/content/drafts';
-import Divider from 'material-ui/Divider';
-import ActionInfo from 'material-ui/svg-icons/action/info';
 import FontIcon from 'material-ui/FontIcon';
-
 import {getReposList} from './getRepos'
 import {
   BrowserRouter as Router,
@@ -23,7 +16,7 @@ import {
 } from 'react-router-dom'
 import reposContent from './reposContent'
 import content from './content'
-import {getReposContent,getReposContentList} from './getRepos'
+import {getReposContentList,testt} from './getRepos'
 const style ={
   position:'fixed',
   bottom:'56px',
@@ -31,10 +24,7 @@ const style ={
   width:'100%',
   overflow:'auto'
 }
-const list = {
-  display:'flex',
-
-}
+import ttt from './test.json'
 
 export default class Code extends Component {
   constructor(props){
@@ -42,19 +32,25 @@ export default class Code extends Component {
     this.state={
       reposList:[],
     }
-    getReposList(this)
+    // getReposList(this)
+
 
 
   }
-      fileType(obj){
-        if(obj.name==='README.md'){
-            return 'description'
-        }else if(obj.type==='dir'){
-            return 'folder'
-        }else if(obj.type==='file'){
-            return 'code'
-        }
+  componentWillMount(){
+    localStorage.setItem("ceshi",JSON.stringify(ttt))
+    testt()
+  let reposList = []
+  for(let v in ttt.user.uid){
+    console.log(ttt.user.uid[v])
+    for(let r in ttt.user.uid[v]){
+      console.log(ttt.user.uid[v][r].repo)
+      reposList.push({repo:ttt.user.uid[v][r].repo,branch:ttt.user.uid[v][r].branch})
     }
+  }
+  console.log(reposList)
+  // this.setState({reposList:reposList})
+  }
   render() {
     const CircularProgressExampleSimple = () => {
       if (this.props.loading) {

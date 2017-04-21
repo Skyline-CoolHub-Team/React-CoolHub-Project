@@ -14,14 +14,11 @@ import BottomNavigation from '../../components/CoolHubBottomNavigation/CoolHubBo
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
 import * as firebase from 'firebase'
-import reposContent from '../Code/reposContent'
-import content from '../Code/content'
 /**
  * Needed for onTouchTap
  * http://stackoverflow.com/a/34015469/988941
  */
 injectTapEventPlugin()
-
 export default class CoolHub extends Component {
   constructor(props) {
     super(props)

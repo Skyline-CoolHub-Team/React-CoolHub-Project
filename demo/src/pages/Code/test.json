@@ -1,0 +1,26 @@
+{
+    "user":{
+        "uid":{
+            "raszxcv":{
+                "0":{
+                    "repo":"aaa",
+                    "branch":"123"
+                },
+                "1":{
+                    "repo":"bbb",
+                    "branch":"123"
+                }
+            },
+            "skyline":{
+                "0":{
+                    "repo":"ccc",
+                    "branch":"123"
+                },
+                "1":{
+                    "repo":"ddd",
+                    "branch":"123"
+                }
+            }
+        }
+    }
+}

@@ -1,7 +1,17 @@
 import axios from 'axios'
 import {Base64} from 'js-base64'
+import ttt from './test.json'
 let accToken = localStorage.getItem('gitHubAcc')
-console.log(accToken)
+
+//获取收藏仓库
+export function heh(re){
+  let reposList = []
+  for(let v in ttt.user.uid.raszxcv){
+    reposList.push(ttt.user.uid.raszxcv[v].repo)
+  }
+  console.log(reposList)
+  re.setState({reposList:reposList})
+}
 //获取用户仓库列表
 export function getReposList(re){
    let instance = axios.create({
@@ -14,6 +24,7 @@ export function getReposList(re){
         response.data.map(lis => {
             reposList.push(lis.name)
         })
+        console.log(reposList)
         re.setState({reposList:reposList})
       })
       .catch(function (error) {
@@ -21,13 +32,17 @@ export function getReposList(re){
       })
 }
 //获取仓库内容里的文件夹或文件列表
-export function getReposContentList(re,repo,path){
+export function getReposContentList(re,repo,path,branch){
        let instance = axios.create({
         baseURL: 'https://api.github.com/',
-        headers: {'Authorization': 'token ' + accToken}
+        headers: {'Authorization': 'token ' + accToken},
+        params:{
+          ref:branch
+        }
       })
       instance.get(`/repos/raszxcv/${repo}/contents/${path}`)
       .then(function (response) {
+        console.log(response)
         let contentList =[]    
         response.data.map(lis => {
             contentList.push({type:lis.type,name:lis.name})
@@ -50,19 +65,39 @@ export function getReposContentList(re,repo,path){
 }  
 
 //获取文件内容
-export function getfileContent(re,repo,path){
+export function getfileContent(re,repo,path,branch){
+
        let instance = axios.create({
         baseURL: 'https://api.github.com/',
-        headers: {'Authorization': 'token ' + accToken}
+        headers: {'Authorization': 'token ' + accToken},
+        params:{
+          rel:branch
+        }
       })
       instance.get(`/repos/raszxcv/${repo}/contents/${path}`)
       .then(function (response) {  
-          console.log(response)
-          console.log
-            re.setState({fileContent:Base64.decode(response.data.content)})
+            re.setState({fileContent:Base64.decode(response.data.content)})          
       })
       .catch(function (error) {
         console.log(error)
       })
 } 
-    
+    //测试用
+export function testt(){
+
+       let instance = axios.create({
+        baseURL: 'https://api.github.com/',
+        headers: {'Authorization': 'token ' + accToken},
+        params:{
+          ref:'v2.2.0'
+        }
+      })
+      instance.get(`/repos/vuejs/vue/contents/`)
+      .then(function (response) {  
+            console.log(response)         
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+} 
+
