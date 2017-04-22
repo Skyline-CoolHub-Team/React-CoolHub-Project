@@ -27,7 +27,6 @@ const createdAt = (date) => {
 const InitData = ({item, url}) => (
   <Link to={`timeline/${item.repo.name}`} key={item.id}>
   <ListItem
-      /*primaryText={item.actor.login + ' ' + (item.payload.forkee ? 'fork' : item.payload.action) + ' ' + item.repo.name }*/
     primaryText={createdAt(item.created_at)}
     secondaryText={
       <p>
@@ -114,7 +113,7 @@ class Timeline extends Component {
     if (!token) alert('please enter the code paeg and sign in.')
   }
   render() {
-    console.log(localStorage.getItem('timelinetab'))
+    console.log(localStorage.getItem('timelinetab'), this.props)
     return (
       <div>
         <MuiThemeProvider>

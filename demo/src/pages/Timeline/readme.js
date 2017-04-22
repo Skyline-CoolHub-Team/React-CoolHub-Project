@@ -32,36 +32,30 @@ const fbCollection = (owner, repo, branch) => {
   })
 }
 
-
-class BranchesItems extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      owner: props.owner,
-      repo: props.repo
-    }
-  }
-  
-  render() {
-    const ItemLists = this.props.branches.map((item) => (
-      <MenuItem primaryText={item} onTouchTap={fbCollection.bind(this,this.state.owner,this.state.repo, item)}/>
+/**
+ * TODO: 右上角的按钮颜色 map的时候需要传props的相关参数进去
+ * 添加添加收藏确认提示框
+ */
+const Logged = (props) => {
+    let owner = props.owner, repo = props.repo
+    const ItemLists = props.branches.map((item, owner, repo) => (
+      <MenuItem primaryText={item} onTouchTap={fbCollection.bind(Logged, owner, repo, item)} key={item}/>
     ))
      return (
       <IconMenu
+        {...props} /* 白色的右侧按钮 */
         iconButtonElement={
-          <IconButton><MoreVertIcon /></IconButton>
+          <IconButton style={{color: 'red'}}><MoreVertIcon style={{color: 'red'}}/></IconButton>
         }
         targetOrigin={{horizontal: 'right', vertical: 'top'}}
         anchorOrigin={{horizontal: 'right', vertical: 'top'}}
       >
         {ItemLists}
       </IconMenu>
-    )
-  }
- 
+     )
 } 
 
-BranchesItems.muiName = 'IconMenu' /* 白色的右侧按钮 */
+Logged.muiName = 'IconMenu' /* 白色的右侧按钮 */
 
 class ReadmeAppBar extends Component {
   handleClose() {
@@ -74,7 +68,7 @@ class ReadmeAppBar extends Component {
       <AppBar
         title="README.md"
         iconElementLeft={<IconButton onTouchTap={this.handleClose.bind(this)}><NavigationClose /></IconButton>}
-        iconElementRight={<BranchesItems branches={self.props.branches} repo={self.props.repo} owner={self.props.owner}/>}
+        iconElementRight={<Logged branches={self.props.branches} repo={self.props.repo} owner={self.props.owner}/>}
       />
     )
   }
