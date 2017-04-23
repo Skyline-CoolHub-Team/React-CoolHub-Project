@@ -6,7 +6,7 @@ import TimelineRoute from './route_timeline'
 import CodeRoute from './route_code'
 const IndexRoute = () => (
   <div>
-    <Route exact path="/" component={ CodeRoute } />
+    <Route path="/code" component={ CodeRoute } />
     <Route path="/timeline" component={ TimelineRoute } />
     {/*<Route path="/star" component={ StarRoute } />
     <Route path="/profile" component={ ProfileRoute } />*/}

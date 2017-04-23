@@ -36,7 +36,7 @@ class CHBottomNavigation extends Component {
             <BottomNavigationItem
               label="Code"
               icon={codeIcon}
-              containerElement={<Link to="/" />}
+              containerElement={<Link to="/code" />}
               onTouchTap={() => this.select(0)}
             />
             <BottomNavigationItem

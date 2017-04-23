@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 // ui components
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import {List, ListItem} from 'material-ui/List'
@@ -40,17 +41,19 @@ class CodeLists extends Component {
   }
 
   render() {
+    var self = this
     localStorage.setItem('collectionList', JSON.stringify(this.state.collectionLists))
     console.log(JSON.parse(localStorage.getItem('collectionList')))
     const listitems = this.state.collectionLists.map((item, index) => (
-      <ListItem
-        key={index}
-        leftAvatar={<Avatar icon={<FileFolder />} />}
-        rightIcon={<ActionInfo />}
-        primaryText={item.repo}
-        secondaryText={item.branch}
-        style={{textAlign: 'left'}}
-      />
+      <Link to={`${this.props.match.url}/${item.owner}/${item.repo}`} key={index}>
+        <ListItem
+          leftAvatar={<Avatar icon={<FileFolder />} />}
+          rightIcon={<ActionInfo />}
+          primaryText={item.repo}
+          secondaryText={item.branch}
+          style={{textAlign: 'left'}}
+        />
+      </Link>
     ))
     return uid
     ? (

@@ -2,9 +2,11 @@ import React from 'react'
 // componnets
 import CodeLists from './code_lists'
 
-const Code = () => (
+const Code = (props) => (
   <div>
-    <CodeLists />
+    <CodeLists 
+    {...props}
+    />
   </div>
 )
 
