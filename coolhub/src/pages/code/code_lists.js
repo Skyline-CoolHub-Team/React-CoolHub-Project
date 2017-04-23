@@ -22,6 +22,10 @@ class CodeLists extends Component {
     loading: true
   }
 
+  componentWillMount() {
+    collectionArr = []
+  }
+
   componentDidMount() {
     let fbCollection = uid && firebase.database().ref(`${uid}/collection`)
     uid && fbCollection.on('value', (snapshot) => {
