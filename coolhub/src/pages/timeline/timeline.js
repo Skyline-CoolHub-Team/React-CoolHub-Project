@@ -1,16 +1,16 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
 // ui components
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-import { Tabs, Tab } from 'material-ui/Tabs'
+import {Tabs, Tab} from 'material-ui/Tabs'
 // api
-import _github from '../../api/axios_github'
-// access_token
-import { token } from '../../utils/tools'
+import axios from 'axios'
 // timelinelists
 import TimelineLists from './timeline_lists'
 // components
 import Loading from '../../components/loading'
+// pubsub-js
+import PubSub from 'pubsub-js'
 
 class Timeline extends Component {
   constructor(props) {
@@ -20,7 +20,12 @@ class Timeline extends Component {
       personalTimeline: [],
       worldwideTimeline: [],
       value: localStorage.getItem('timelinetab') || 'a', /* 获取后退后的tab状态 */
+      token: localStorage.getItem('token')
     }
+    this._github = axios.create({
+      baseURL: 'https://api.github.com/',
+      headers: {'Authorization': 'token ' + this.state.token}
+    })
   }
 
   handleChange = (value) => {
@@ -29,11 +34,12 @@ class Timeline extends Component {
       value: value,
     })
   }
+  // todo: localStorage 中获取userName
 
   loadData () {
     let self = this, 
     userName = ''
-    _github.get('/user')
+    this._github.get('/user')
     .then((response) => {
       userName = response.data.login
       self.getPersonalTimeline(userName)
@@ -46,7 +52,7 @@ class Timeline extends Component {
 
   getPersonalTimeline(userName) {
     let self = this
-    _github.get('/users/' + userName + '/received_events')
+    this._github.get('/users/' + userName + '/received_events')
     .then((response) => {
       self.setState({
         loading: false,
@@ -61,7 +67,7 @@ class Timeline extends Component {
 
   getWorldwideTimeline() {
     let self = this
-    _github.get('/events')
+    this._github.get('/events')
     .then((response) => {
       self.setState({
         worldwideTimeline: response.data
@@ -74,8 +80,7 @@ class Timeline extends Component {
   }
 
   componentDidMount() {
-    console.log(token)
-    token ? this.loadData() : alert('please enter the code page and sign in firstly.')
+    this.state.token ? this.loadData() : alert('Please sign in first.')
   }
 
   render() {

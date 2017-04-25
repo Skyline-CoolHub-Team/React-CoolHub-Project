@@ -12,6 +12,8 @@ import Loading from '../../components/loading'
 import {uid} from '../../utils/tools'
 // firebase
 import * as firebase from 'firebase'
+// pubsub
+import PubSub from 'pubsub-js'
 
 let collectionArr = []
 
@@ -19,20 +21,37 @@ class CodeLists extends Component {
 
   state = {
     collectionLists: [],
-    loading: true
+    loading: true,
+    uid: uid // update firstly when the pubsub invoke setState. 
   }
 
   componentWillMount() {
     collectionArr = []
   }
-
+  componentWillUnmount() {
+    collectionArr = []
+     PubSub.unsubscribe(this.pusub_uid)
+  }
   componentDidMount() {
-    let fbCollection = uid && firebase.database().ref(`${uid}/collection`)
-    uid && fbCollection.on('value', (snapshot) => {
+    this.getCollectionList()
+    this.pubsub_uid = PubSub.subscribe('uid', function (topic, value) {
+      console.log(value)
+      this.setState({
+        uid: value
+      })
+      this.getCollectionList()
+    }.bind(this))
+  }
+
+  getCollectionList() {
+    let fbCollection = this.state.uid && firebase.database().ref(`${this.state.uid}/collection`)
+    this.state.uid && fbCollection.on('value', (snapshot) => {
       let result = snapshot.val()
-      this.setState({loading: false})
+      this.setState({
+        loading: false
+      })
       for (var key in result) {
-         collectionArr.push(result[key])
+        collectionArr.push(result[key])
       }
       this.setState({
         collectionLists: collectionArr
@@ -40,14 +59,9 @@ class CodeLists extends Component {
     })
   }
 
-  componentWillUnmount() {
-    collectionArr = []
-  }
-
   render() {
-    var self = this
     localStorage.setItem('collectionList', JSON.stringify(this.state.collectionLists))
-    console.log(JSON.parse(localStorage.getItem('collectionList')))
+    // console.log(JSON.parse(localStorage.getItem('collectionList')))
     const listitems = this.state.collectionLists.map((item, index) => (
       <Link to={`${this.props.match.url}/${item.owner}/${item.repo}`} key={index}>
         <ListItem
@@ -59,7 +73,7 @@ class CodeLists extends Component {
         />
       </Link>
     ))
-    return uid
+    return this.state.uid
     ? (
       <MuiThemeProvider>
         <div>

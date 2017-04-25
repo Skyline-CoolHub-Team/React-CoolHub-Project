@@ -1,9 +1,8 @@
-import axios from 'axios'
-import { token } from '../utils/tools'
+// import axios from 'axios'
 
-const _github = axios.create({
-  baseURL: 'https://api.github.com/',
-  headers: {'Authorization': 'token ' + token}
-})
+// const _github = axios.create({
+//   baseURL: 'https://api.github.com/',
+//   headers: {'Authorization': 'token ' + localStorage.getItem('token')}
+// })
 
-export default _github
+// export default _github// we should setup the _github at constructor for update the token instantly.

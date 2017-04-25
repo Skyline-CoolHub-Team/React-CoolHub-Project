@@ -10,5 +10,5 @@ export const b64_to_utf8 = (str) => decodeURIComponent(escape(window.atob(str)))
 export const passedDays = (date) => {
   let timestamp = new Date(date)
   let pastDays = parseInt((Date.now() - timestamp) / 3600 / 24 / 1000)
-  return pastDays === 0 ? 'Today' : pastDays + ' day ago'
+  return pastDays === 0 ? 'Today' : pastDays === 1 ? pastDays + ' day ago' : pastDays + ' days ago'
 }

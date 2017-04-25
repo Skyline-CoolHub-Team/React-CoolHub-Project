@@ -27,8 +27,27 @@ class CHBottomNavigation extends Component {
   }
 
   select = (index) => this.setState({selectedIndex: index})
+  
+  componentWillMount() {
+    console.log('will mount', this.props)
+    this.props && this.setState({
+      selectedIndex: this.props.index
+    })
+  }
+  componentDidMount() {
+    console.log('did mount',this.props, this.props.index)
+  }
+  componentWillUpdate() {
+    console.log('will update', this.props, this.props.index)
+  }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   console.log('should')
+  //   return false
+  // }
 
   render() {
+    console.log('render this.state.index: '+this.state.selectedIndex)
     return (
       <MuiThemeProvider>
         <Paper zDepth={4} style={style}>
@@ -48,7 +67,7 @@ class CHBottomNavigation extends Component {
             <BottomNavigationItem
               label="Star"
               icon={starIcon}
-              containerElement={<Link to="/star" />}
+              containerElement={<Link to="/stars" />}
               onTouchTap={() => this.select(2)}
             />
             <BottomNavigationItem

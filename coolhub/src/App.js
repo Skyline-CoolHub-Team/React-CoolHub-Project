@@ -5,7 +5,7 @@ import './asset/css/reset.css'
 // custom route
 import IndexRoute from './route/index'
 // components
-import CHBottomNavigation from './components/ch_bottom_navigation'
+
 // ui components
 import injectTapEventPlugin from 'react-tap-event-plugin'
 /**
@@ -22,7 +22,6 @@ const App = () => (
   <Router>
     <div style={{ textAlign: 'center'}}>
       <IndexRoute />
-      <CHBottomNavigation />
     </div>
   </Router>
 )

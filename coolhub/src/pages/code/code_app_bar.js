@@ -14,8 +14,8 @@ import RaisedButton from 'material-ui/RaisedButton'
 import {_github} from '../../utils/tools.js'
 // firebase
 import * as firebase from 'firebase'
-// token
-import { token } from '../../utils/tools'
+// publish
+import { TOKEN, UID } from '../../publish/index'
 
 /**
  * firebase config once
@@ -75,17 +75,16 @@ class CodeAppBar extends Component {
 
   componentDidMount() {
     var self = this
-    
-    token &&
-    this.setState({
-      isSignIn: true
-    })
-    
+    localStorage.getItem('token') ? this.setState({isSignIn: true}) : void(0)
     firebase.auth().getRedirectResult().then(function (result) {
       if (result.credential) {
-        self.props.toggleLoading()
+        // self.props.toggleLoading()
         let token = result.credential.accessToken
         let user = result.user
+        // pubsub publish
+        TOKEN(token)
+        UID(user.uid)
+        // save token uid => localStorage
         localStorage.setItem('token', token)
         localStorage.setItem('uid', user.uid)
         console.log(token, user, result)
@@ -105,7 +104,7 @@ class CodeAppBar extends Component {
       })
       _github.get('/user')
       .then(function (response) {
-        self.props.toggleLoading()
+        // self.props.toggleLoading()
         console.log(response, response.data)
         localStorage.setItem('user', response.data.login)
       })
@@ -129,9 +128,6 @@ class CodeAppBar extends Component {
         onTouchTap={this.oAuth}
       />,
     ]
-    if (!this.state.isSignIn) {
-      
-    }
     return (
       <MuiThemeProvider>
         <div>

@@ -11,7 +11,7 @@ import '../../asset/css/github_markdown.css'
 // tools
 import { b64_to_utf8 } from '../../utils/tools'
 // api
-import _github from '../../api/axios_github'
+import axios from 'axios'
 
 class Readme extends Component {
   constructor(props) {
@@ -21,12 +21,17 @@ class Readme extends Component {
       content: '',
       branches: [],
       owner: props.match.params.owner,
-      repo: props.match.params.repo
+      repo: props.match.params.repo,
+      token: localStorage.getItem('token')
     }
+    this._github = axios.create({
+      baseURL: 'https://api.github.com/',
+      headers: {'Authorization': 'token ' + this.state.token}
+    })
   }
   
   getMdhtml(md) {
-    _github.post('/markdown', {
+    this._github.post('/markdown', {
       "text": md,
       "mode": "gfm",
       "context": "github/gollum"
@@ -43,7 +48,7 @@ class Readme extends Component {
 
   componentDidMount() {
     var self = this
-    _github.get(`/repos/${this.props.match.params.owner}/${this.props.match.params.repo}/readme`)
+    this._github.get(`/repos/${this.props.match.params.owner}/${this.props.match.params.repo}/readme`)
     .then((response) => {
       let md = b64_to_utf8(response.data.content)
       this.setState({loading: false})
@@ -57,7 +62,7 @@ class Readme extends Component {
       })
     })
 
-    _github.get(`/repos/${this.props.match.params.owner}/${this.props.match.params.repo}/branches`)
+    this._github.get(`/repos/${this.props.match.params.owner}/${this.props.match.params.repo}/branches`)
     .then((response) => {
       let branches = response.data.map((item) => item.name)
       console.log(branches)
