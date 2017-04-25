@@ -76,6 +76,12 @@ class Timeline extends Component {
   componentDidMount() {
     console.log(token)
     token ? this.loadData() : alert('please enter the code page and sign in firstly.')
+    // this.pubsub_token = PubSub.subscribe('token', function (topic, value) {
+    //   console.log(value)
+    //   this.setState({
+    //     token: value
+    //   });
+    // }.bind(this))
   }
 
   render() {

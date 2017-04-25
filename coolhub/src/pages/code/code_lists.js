@@ -3,8 +3,8 @@ import {List, ListItem} from 'material-ui/List'
 import FontIcon from 'material-ui/FontIcon'
 import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
-import {getReposContentList} from './getData'
-
+import {getReposContentList,getfileContent} from './getCodeData'
+import Loading from '../../components/loading'
 const style ={
   position:'fixed',
   bottom:'56px',
@@ -20,43 +20,33 @@ class reposContent extends Component {
         super(props)
         this.state={
             reposRoot:[],
+            loading:true
         }
         this.fileType = this.fileType.bind(this)
         let idx = this.props.match.params.idx
-        let a = JSON.parse(localStorage.getItem('collectionList'))
-        console.log(a[0])
-        getReposContentList(this,a[idx].owner,a[idx].repo,'',a[idx].branch)
+        let list = JSON.parse(localStorage.getItem('collectionList'))
+        getReposContentList(this,list[idx].obj.owner,list[idx].obj.repo,'',list[idx].obj.branch)
     }
     fileType(obj){
         let reg = /\..+/
         if(obj.type==='dir'){
             return 'folder'
         }else if(obj.type==='file'){
-            switch(reg.exec(obj.name)[0]){
-                case '.svg':
-                case '.png':
-                case '.jpg':
-                    return 'insert_photo'
-                    break
-                case '.md':
-                    return 'description'
-                    break
-                case '.css':
-                case '.min.css':
-                    return 'palette'
-                    break
-                default:
-                    return 'code'
-            }
-        }
-    }
 
+            return 'code'
+        }
+        
+    }
+     componentDidMount(){
+         
+     }
     render(){
         let self = this      
             return (
              <div style={style}>
-            <MuiThemeProvider>
+            <MuiThemeProvider>    
                 <List style={{textAlign: 'left'}}>
+                    <Loading loading={this.state.loading}/>
                     {this.state.reposRoot.map((lis,index) => {
                         return <Link to={`${self.props.match.url}/${lis.name}`} key={index}>
                                 <ListItem  

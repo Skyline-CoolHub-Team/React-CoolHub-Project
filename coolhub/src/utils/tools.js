@@ -1,7 +1,9 @@
+
+import PubSub from 'pubsub-js'
 // get the access_token of github oAuth
-export const token = localStorage.getItem('token')
+export let token = localStorage.getItem('token')
 // get the uid of the firebase
-export const uid = localStorage.getItem('uid')
+export let uid = localStorage.getItem('uid')
 // get the collectionLists
 export const collectionLists = JSON.parse(localStorage.getItem('collectionLists'))
 // transform base64 to utf9
@@ -12,3 +14,10 @@ export const passedDays = (date) => {
   let pastDays = parseInt((Date.now() - timestamp) / 3600 / 24 / 1000)
   return pastDays === 0 ? 'Today' : pastDays + ' day ago'
 }
+
+// PubSub.subscribe('token',function(topic,value){
+//     token = value
+// })
+// PubSub.subscribe('uid',function(topic,value){
+//     uid = () => value()
+// })

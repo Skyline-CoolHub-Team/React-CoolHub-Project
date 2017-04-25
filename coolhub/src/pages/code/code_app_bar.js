@@ -16,7 +16,8 @@ import {_github} from '../../utils/tools.js'
 import * as firebase from 'firebase'
 // token
 import { token } from '../../utils/tools'
-
+import ss from '../code/test'
+import PubSub from 'pubsub-js'
 /**
  * firebase config once
  */
@@ -35,8 +36,9 @@ class CodeAppBar extends Component {
     super(props)
     this.state = {
       isSignIn: false,
-      isEdit: false,
-      open: false
+      isEdit: true,
+      open: false,
+      showEdit:true
     }
   }
 
@@ -57,6 +59,7 @@ class CodeAppBar extends Component {
         isEdit: true
       })
     }
+    PubSub.publish('changedit',this.state.isEdit)
   }
 
   handleOpen = () => {
@@ -89,8 +92,8 @@ class CodeAppBar extends Component {
         let user = result.user
         localStorage.setItem('token', token)
         localStorage.setItem('uid', user.uid)
-        console.log(111)
-        console.log(token, user, result)
+        PubSub.publish('uid',user.uid)
+        PubSub.publish('token',user.token)
         dealWithToken(token)
       }
       }).catch(function (error) {
@@ -139,7 +142,7 @@ class CodeAppBar extends Component {
         <div>
         <AppBar
           title={<span>Code</span>}
-          iconElementRight={<FlatButton label={this.state.isEdit ? 'Done' : 'Edit'} onClick={this.handleEdit} />}
+          iconElementRight={ <FlatButton  label={this.state.isEdit ? 'Edit' : 'Done'} onClick={this.state.showEdit?this.handleEdit:null}/> }
           iconElementLeft={
             <IconButton onTouchTap={this.state.isSignIn ? this.handleWelcome : this.handleOpen}>
               <FontIcon className="material-icons">{this.state.isSignIn ? 'face' : 'perm_identity'}

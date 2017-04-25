@@ -5,14 +5,17 @@ import {List, ListItem} from 'material-ui/List';
 import FontIcon from 'material-ui/FontIcon';
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
-import {getReposContentList,getfileContent} from './getData'
+import {getReposContentList,getfileContent,getType} from './getCodeData'
 import hijs from 'highlight.js'
+import '../../asset/css/highlight.css'
+import Loading from '../../components/loading'
 const style ={
   position:'fixed',
   bottom:'56px',
   top:'64px',
   width:'100%',
-  overflow:'auto'
+  overflow:'auto',
+  textAlign:'left'
 
 }
 let a = JSON.parse(localStorage.getItem('collectionList'))
@@ -24,44 +27,28 @@ class content extends Component {
         this.state={
             reposRoot:[],
             fileContent:'',
-            idx:this.props.match.params.idx
-        }   
-        
-        
+            aaa:undefined,
+            idx:this.props.match.params.idx,
+            loading:true
+        }    
+        // getType(this,a[this.state.idx].owner,a[this.state.idx].repo,this.props.match.params['0'],a[this.state.idx].branch)
     }
     componentWillMount(){
-        console.log(this.props.match)
-        let reg = /\..+/
-        
-        if(reg.test(this.props.match.params['0'])){ 
-            getfileContent(this,a[this.state.idx].owner,a[this.state.idx].repo,this.props.match.params['0'],a[this.state.idx].branch) 
-        }else{
-            getReposContentList(this,a[this.state.idx].owner,a[this.state.idx].repo,this.props.match.params['0'],a[this.state.idx].branch)
-        }
+        getfileContent(this,a[this.state.idx].obj.owner,a[this.state.idx].obj.repo,this.props.match.params['0'],a[this.state.idx].obj.branch) 
         this.mounted =false
-        
         // 监听浏览器后退事件,重新获取数据
         window.addEventListener('popstate',()=>{
             //防止组件卸载后由异步使用setState造成的错误
             if(this.mounted===false){
-                getReposContentList(this,this.props.match.params.rep,this.props.match.params['0'])
+                console.log(this.props.match)
+                getfileContent(this,a[this.state.idx].obj.owner,a[this.state.idx].obj.repo,this.props.match.params['0'],a[this.state.idx].obj.branch)
             } 
             return
         })
         
     }
-    getContentList(rep,path){
-        let reg = /\..+/
-        console.log(reg.test(path))
-        console.log(a)
-        if(reg.test(path)){   
-            console.log(path)     
-            getfileContent(this,a[this.state.idx].owner,a[this.state.idx].repo,path,a[this.state.idx].branch)  
-            return
-        }else{
-             getReposContentList(this,this.props.match.params.rep,this.props.match.params['0'])
-        }
-                  
+    getContentList(path){
+            getfileContent(this,a[this.state.idx].obj.owner,a[this.state.idx].obj.repo,path,a[this.state.idx].obj.branch)             
     }
     //判断文件类型,
     fileType(obj){
@@ -98,12 +85,13 @@ class content extends Component {
         hijs.initHighlightingOnLoad()       
     }
     componentDidUpdate(){
-        
+        console.log(this.state.reposRoot)
     }
     render(){
-        let reg = /\..+/
-        let self = this  
-     if(reg.test(this.props.match.params['0'])){   
+        let self = this
+    if(this.state.loading===true){
+      return <Loading loading={true}/>
+    }else if(this.state.aaa===true){   
          return (  
              <div style={style}>
                  <pre className="hljs">
@@ -114,7 +102,7 @@ class content extends Component {
          )
      }else{
         return (
-                <div style={style}>
+            <div style={style}>
                 <MuiThemeProvider>
                     <List>
                         {this.state.reposRoot.map((lis,index) => {
@@ -123,7 +111,7 @@ class content extends Component {
                                             primaryText={lis.name} 
                                             leftIcon={<FontIcon className="material-icons">{this.fileType(lis)}</FontIcon>} 
                                             rightIcon={<FontIcon className="material-icons">chevron_right</FontIcon>}
-                                            onClick={this.getContentList.bind(this,self.props.match.params.rep,self.props.match.params['0']+'/'+lis.name)}
+                                            onClick={this.getContentList.bind(this,self.props.match.params['0']+'/'+lis.name)}
                                             />
                                 </Link>           
                         })}
