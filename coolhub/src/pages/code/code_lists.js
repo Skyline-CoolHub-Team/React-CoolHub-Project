@@ -78,7 +78,7 @@ class CodeLists extends Component {
       <MuiThemeProvider>
         <div>
         <Loading loading={this.state.loading} />
-        <List>
+        <List style={{ height: 'calc(100vh - 72px - 56px)', paddingBottom: 76, paddingTop: 76}}>
           {listitems}
         </List>
         </div>
