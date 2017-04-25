@@ -39,7 +39,7 @@ class Stars extends Component {
   }
 
   componentDidMount() {
-    this.getStars()
+    this.state.token ? this.getStars() : alert('Please sign in first.')
   }
 
   render() {
