@@ -70,8 +70,8 @@ export default class publicActivity extends Component {
                     <List style={style} >
                         {this.state.activityList.map((lis,index) => {
                             return (
+                                <Link to={`${this.props.match.url}/${lis.repo}`} key={index}      >
                                 <ListItem
-                                    key={index}      
                                     leftAvatar={<Avatar src={lis.url} />}
                                     primaryText={passedDays(lis.time)}
                                      secondaryText={
@@ -82,6 +82,7 @@ export default class publicActivity extends Component {
                                         </p>
                                     }
                                     />
+                                </Link>
                             )
                         })}          
                     </List>

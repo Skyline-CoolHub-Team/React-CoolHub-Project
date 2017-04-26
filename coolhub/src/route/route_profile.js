@@ -15,6 +15,7 @@ const ProfileRoute = (props) => (
       <Switch>
         <Route exact path={`${props.match.url}`} component={ profile } />
         <Route exact path={`${props.match.url}/publicactivity`} component={publicActivity}/>
+        <Route exact path={`${props.match.url}/publicactivity/:owner?/:repo`} component={Readme} />
         <Route exact path={`${props.match.url}/repositories`} component={repositories}/>
         <Route exact path={`${props.match.url}/repositories/:owner?/:repo`} component={Readme} />
         <Route exact path={`${props.match.url}/followers`} component={followers}/>
