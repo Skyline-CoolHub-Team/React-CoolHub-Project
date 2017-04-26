@@ -1,10 +1,10 @@
 import axios from 'axios'
-import {token,b64_to_utf8} from '../../utils/tools'
+import {b64_to_utf8} from '../../utils/tools'
 import PubSub from 'pubsub-js'
-// let token = ''
-// PubSub.subscribe('token',function(topic,value){
-//     token = value
-// })
+let token = localStorage.getItem('token')
+PubSub.subscribe('token',function(topic,value){
+    token = value
+})
 //获取仓库内容里的文件夹或文件列表
 export function getReposContentList(re,owenr,repo,path,branch){
     console.log(1231231231)

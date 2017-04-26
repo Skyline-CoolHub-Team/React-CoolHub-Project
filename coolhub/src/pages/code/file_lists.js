@@ -17,7 +17,6 @@ const style ={
   width:'100%',
   overflow:'auto',
   textAlign:'left'
-
 }
 
 

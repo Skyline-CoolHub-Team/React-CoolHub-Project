@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 import {getReposContentList,getfileContent} from './getCodeData'
 import Loading from '../../components/loading'
 import AppBar from 'material-ui/AppBar';
+import PubSub from 'pubsub-js'
 const style ={
   position:'fixed',
   bottom:'56px',
@@ -21,12 +22,11 @@ class reposContent extends Component {
         super(props)
         this.state={
             reposRoot:[],
-            loading:true
+            loading:true,
+
         }
         this.fileType = this.fileType.bind(this)
-        
-        
-        
+ 
     }
     fileType(obj){
         let reg = /\..+/
@@ -39,6 +39,11 @@ class reposContent extends Component {
         
     }
     componentDidMount(){
+        // this.pubsub_token = PubSub.subscribe('token',function(topic,value){
+        //     this.setState({
+        //         token:value
+        //     })
+        // })
         let idx = this.props.match.params.idx
         let list = JSON.parse(localStorage.getItem('collectionList'))
         this.repoName = list[idx].obj.repo

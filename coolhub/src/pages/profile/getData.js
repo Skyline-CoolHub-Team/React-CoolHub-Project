@@ -1,10 +1,15 @@
 import axios from 'axios'
-let accToken = localStorage.getItem('token')
+import PubSub from 'pubsub-js'
+let token = localStorage.getItem('token')
+PubSub.subscribe('token',function(topic,value){
+    token = value
+})
+
 //获取登录后的用户信息
 export function getUserData(self){
        let instance = axios.create({
         baseURL: 'https://api.github.com/',
-        headers: {'Authorization': 'token ' + accToken},
+        headers: {'Authorization': 'token ' + token},
       })
       instance.get(`/user`)
       .then(function (response) {  
@@ -21,7 +26,7 @@ export function getUserData(self){
 export function getUsersData(self,owner){
        let instance = axios.create({
         baseURL: 'https://api.github.com/',
-        headers: {'Authorization': 'token ' + accToken},
+        headers: {'Authorization': 'token ' + token},
       })
       instance.get(`/users/${owner}`)
       .then(function (response) {  
@@ -38,7 +43,7 @@ export function getUsersData(self,owner){
 export function getUserActivity(self,owner){
        let instance = axios.create({
         baseURL: 'https://api.github.com/',
-        headers: {'Authorization': 'token ' + accToken},
+        headers: {'Authorization': 'token ' + token},
       })
       instance.get(`/users/${owner}/received_events`)
       .then(function (res) {  
@@ -64,7 +69,7 @@ export function getUserActivity(self,owner){
 export function getUserRepos(self,owner){
        let instance = axios.create({
         baseURL: 'https://api.github.com/',
-        headers: {'Authorization': 'token ' + accToken},
+        headers: {'Authorization': 'token ' + token},
       })
       instance.get(`/users/${owner}/repos`)
       .then(function (res) {  
@@ -85,7 +90,7 @@ export function getUserRepos(self,owner){
 export function getUserfollowers(self){
        let instance = axios.create({
         baseURL: 'https://api.github.com/',
-        headers: {'Authorization': 'token ' + accToken},
+        headers: {'Authorization': 'token ' + token},
       })
       instance.get(`/user/followers`)
       .then(function (res) {  
@@ -105,7 +110,7 @@ export function getUserfollowers(self){
 export function getUsersfollowers(self,owner){
        let instance = axios.create({
         baseURL: 'https://api.github.com/',
-        headers: {'Authorization': 'token ' + accToken},
+        headers: {'Authorization': 'token ' + token},
       })
       instance.get(`/users/${owner}/followers`)
       .then(function (res) {  
@@ -125,7 +130,7 @@ export function getUsersfollowers(self,owner){
 export function getUserfollowing(self){
        let instance = axios.create({
         baseURL: 'https://api.github.com/',
-        headers: {'Authorization': 'token ' + accToken},
+        headers: {'Authorization': 'token ' + token},
       })
       instance.get(`/user/following`)
       .then(function (res) {  
@@ -145,7 +150,7 @@ export function getUserfollowing(self){
 export function getUsersfollowing(self,owner){
        let instance = axios.create({
         baseURL: 'https://api.github.com/',
-        headers: {'Authorization': 'token ' + accToken},
+        headers: {'Authorization': 'token ' + token},
       })
       instance.get(`/users/${owner}/following`)
       .then(function (res) {  

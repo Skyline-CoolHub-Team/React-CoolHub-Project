@@ -14,9 +14,9 @@ import RaisedButton from 'material-ui/RaisedButton'
 import {_github} from '../../utils/tools.js'
 // firebase
 import * as firebase from 'firebase'
-// token
-import { token } from '../../utils/tools'
-import PubSub from 'pubsub-js'
+// publish
+import { TOKEN, UID , EDIT} from '../../publish/index'
+
 /**
  * firebase config once
  */
@@ -35,9 +35,8 @@ class CodeAppBar extends Component {
     super(props)
     this.state = {
       isSignIn: false,
-      isEdit: true,
-      open: false,
-      showEdit:true
+      isEdit: false,
+      open: false
     }
   }
 
@@ -50,15 +49,16 @@ class CodeAppBar extends Component {
 
   handleEdit = () => {
     if (this.state.isEdit) {
+      EDIT(!this.state.isEdit)
       this.setState({
         isEdit: false
       })
     } else {
+      EDIT(!this.state.isEdit)
       this.setState({
         isEdit: true
       })
     }
-    PubSub.publish('changedit',this.state.isEdit)
   }
 
   handleOpen = () => {
@@ -76,23 +76,20 @@ class CodeAppBar extends Component {
   }
 
   componentDidMount() {
-    var self = this   
-    token &&
-    this.setState({
-      isSignIn: true
-    })
-    
+    var self = this
+    localStorage.getItem('token') ? this.setState({isSignIn: true}) : void(0)
     firebase.auth().getRedirectResult().then(function (result) {
-      console.log(result)
       if (result.credential) {
-        console.log('???')
         // self.props.toggleLoading()
         let token = result.credential.accessToken
         let user = result.user
+        // pubsub publish
+        TOKEN(token)
+        UID(user.uid)
+        // save token uid => localStorage
         localStorage.setItem('token', token)
         localStorage.setItem('uid', user.uid)
-        PubSub.publish('uid',user.uid)
-        PubSub.publish('token',user.token)
+        console.log(token, user, result)
         dealWithToken(token)
       }
       }).catch(function (error) {
@@ -100,7 +97,7 @@ class CodeAppBar extends Component {
         let errorMessage = error.message
         let email = error.email
         let credential = error.credential
-        // console.log(errorCode, errorMessage, email, credential)
+        console.log(errorCode, errorMessage, email, credential)
       })
 
     function dealWithToken (token) {
@@ -133,16 +130,13 @@ class CodeAppBar extends Component {
         onTouchTap={this.oAuth}
       />,
     ]
-    if (!this.state.isSignIn) {
-      
-    }
     return (
       <MuiThemeProvider>
         <div>
         <AppBar
           style={{position: 'fixed', top: 0, left: 0}}
           title={<span>Code</span>}
-          iconElementRight={ <FlatButton  label={this.state.isEdit ? 'Edit' : 'Done'} onClick={this.state.showEdit?this.handleEdit:null}/> }
+          iconElementRight={<FlatButton label={this.state.isEdit ? 'Done' : 'Edit'} onClick={this.handleEdit} />}
           iconElementLeft={
             <IconButton onTouchTap={this.state.isSignIn ? this.handleWelcome : this.handleOpen}>
               <FontIcon className="material-icons">{this.state.isSignIn ? 'face' : 'perm_identity'}

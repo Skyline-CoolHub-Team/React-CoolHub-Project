@@ -23,27 +23,27 @@ class CodeLists extends Component {
     collectionLists: [],
     loading: true,
     edit:false,
-    // uid:uid
+    uid:localStorage.getItem('uid')
   }
   componentWillMount(){
     // collectionArr = []
   }
   componentDidMount() {
     this.getcollectionLists()
-    this.pubsub_edit = PubSub.subscribe('changedit', function (topic, value) {
+    this.pubsub_edit = PubSub.subscribe('edit', function (topic, value) {
       console.log(value)
       this.setState({
         edit: value
       });
     }.bind(this))
 
-    // this.pubsub_uid = PubSub.subscribe('uid', function (topic, value) {
-    //   console.log(value)
-    //   this.setState({
-    //     uid: value
-    //   });
-    //   this.getcollectionLists()
-    // }.bind(this))
+    this.pubsub_uid = PubSub.subscribe('uid', function (topic, value) {
+      console.log(value)
+      this.setState({
+        uid: value
+      });
+      this.getcollectionLists()
+    }.bind(this))
   }
 
   componentWillUnmount() {
@@ -56,8 +56,8 @@ class CodeLists extends Component {
   }
   getcollectionLists(){
     console.log(uid)
-     let fbCollection = uid && firebase.database().ref(`${uid}/collection`)
-    uid && fbCollection.on('value', (snapshot) => {
+     let fbCollection = this.state.uid && firebase.database().ref(`${this.state.uid}/collection`)
+    this.state.uid && fbCollection.on('value', (snapshot) => {
       let collectionArr = []
       let result = snapshot.val()
       console.log(result)
@@ -73,7 +73,7 @@ class CodeLists extends Component {
     })
   }
   removeFile(key){
-    firebase.database().ref(`${uid}/collection/${key}`).remove();
+    firebase.database().ref(`${this.state.uid}/collection/${key}`).remove();
     this.getcollectionLists()
   }
   render() {
@@ -94,7 +94,7 @@ class CodeLists extends Component {
       />
       </Link>
     ))
-    return uid
+    return this.state.uid
     ? (
       <MuiThemeProvider>
         <div>
@@ -107,7 +107,6 @@ class CodeLists extends Component {
       </MuiThemeProvider>
     )
     : (
-
       <MuiThemeProvider>
         <div>
       <CodeAppBar/>

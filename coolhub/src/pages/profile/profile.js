@@ -37,6 +37,8 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import FlatButton from 'material-ui/FlatButton';
 import publicActivity from './public_Activity'
 import Loading from '../../components/loading'
+import PubSub from 'pubsub-js'
+import {uid} from '../../utils/tools'
 const style = {marginLeft:5};
 const stylee ={
   paddingTop:'30px',
@@ -73,14 +75,15 @@ export default class Profile extends Component {
     this.state = {
       avatarUrl:'',
       userName:'',
-      loading:false
+      loading:false,
+      uid:localStorage.getItem('uid')
     }
     console.log(this.props.match)
     this.props.match.params.user?getUsersData(this,this.props.match.params.user):getUserData(this)
   }
 
   componentDidMount() {
-    if (!this.state.userName) alert('Please sign in first.')
+    if(!this.state.uid) alert('Please sign in first.') 
   }
 
   render() {

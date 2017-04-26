@@ -8,3 +8,7 @@ export const TOKEN = (value) => {
 export const UID = (value) => {
   PubSub.publish('uid', value)
 }
+
+export const EDIT = (value) => {
+  PubSub.publish('edit', value)
+}
