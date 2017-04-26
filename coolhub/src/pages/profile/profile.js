@@ -79,6 +79,10 @@ export default class Profile extends Component {
     this.props.match.params.user?getUsersData(this,this.props.match.params.user):getUserData(this)
   }
 
+  componentDidMount() {
+    if (!this.state.userName) alert('Please sign in first.')
+  }
+
   render() {
 
 return (
