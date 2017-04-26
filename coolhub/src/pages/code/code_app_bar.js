@@ -16,7 +16,6 @@ import {_github} from '../../utils/tools.js'
 import * as firebase from 'firebase'
 // token
 import { token } from '../../utils/tools'
-import ss from '../code/test'
 import PubSub from 'pubsub-js'
 /**
  * firebase config once

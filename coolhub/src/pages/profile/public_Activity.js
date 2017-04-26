@@ -39,6 +39,8 @@ export default class publicActivity extends Component {
         console.log(this.props.match)
        this.props.match.params.user?getUserActivity(this,this.props.match.params.user):getUserActivity(this,'raszxcv')
     }
+    
+
     type(type){
        switch(type){
            case "ForkEvent":

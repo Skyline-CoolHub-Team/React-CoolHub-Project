@@ -38,10 +38,12 @@ class ReadmeAppBar extends Component {
   handleClose = () => {
     this.setState({open: false})
   }
+
   handleConfirm = () => {
     fbCollection(this.state.owner, this.state.repo, this.state.item)
     this.setState({open: false})
   }
+
   handleClosePage() {
     history.go(-1)
   }

@@ -29,7 +29,10 @@ class repositories extends Component {
             loading:false
         }
         console.log(this.props.match)
-        this.props.match.params.user?getUserRepos(this,this.props.match.params.user):getUserRepos(this,this.state.userName)
+        
+    }
+    componentDidMount() {
+      this.props.match.params.user?getUserRepos(this,this.props.match.params.user):getUserRepos(this,this.state.userName)  
     }
     render(){
         return (
@@ -42,16 +45,19 @@ class repositories extends Component {
                         iconElementRight={<IconButton></IconButton>}
                         />
                         <List style={style}>
-                            {this.state.reposList.map(lis => {
+                            {this.state.reposList.map((lis, index) => {
                                 return (
+                                    <Link to={`${this.props.match.url}/${lis['full_name']}`}>
                                     <ListItem
+                                        key={index}
                                         primaryText={lis.name}
                                         secondaryText={
                                         <p >
-                                            {lis.desc?lis.desc:'Not description'}
+                                            {lis.desc?lis.desc:'No description'}
                                         </p>
                                     }
                                     />
+                                    </Link>
                                 )
                             })}
                         </List>
@@ -61,9 +67,5 @@ class repositories extends Component {
             :<Loading loading={true}/>
         )
     }
-
-
-
-
 }
 export default repositories

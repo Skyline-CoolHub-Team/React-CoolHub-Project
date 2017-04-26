@@ -16,7 +16,7 @@ import * as firebase from 'firebase'
 import {Link} from 'react-router-dom'
 
 import PubSub from 'pubsub-js'
-
+import CodeAppBar from './code_app_bar'
 class CodeLists extends Component {
 
   state = {
@@ -99,6 +99,7 @@ class CodeLists extends Component {
       <MuiThemeProvider>
         <div>
         <Loading loading={this.state.loading} />
+        <CodeAppBar/>
         <List>
           {listitems}
         </List>

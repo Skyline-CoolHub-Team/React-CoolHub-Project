@@ -9,6 +9,7 @@ import {getReposContentList,getfileContent,getType} from './getCodeData'
 import hijs from 'highlight.js'
 import '../../asset/css/highlight.css'
 import Loading from '../../components/loading'
+import AppBar from 'material-ui/AppBar';
 const style ={
   position:'fixed',
   bottom:'56px',
@@ -29,7 +30,8 @@ class content extends Component {
             fileContent:'',
             aaa:undefined,
             idx:this.props.match.params.idx,
-            loading:true
+            loading:true,
+            fileName:''
         }    
         // getType(this,a[this.state.idx].owner,a[this.state.idx].repo,this.props.match.params['0'],a[this.state.idx].branch)
     }
@@ -82,10 +84,11 @@ class content extends Component {
         
     }
     componentDidMount(){
-        hijs.initHighlightingOnLoad()       
+        hijs.initHighlightingOnLoad()   
+    
     }
     componentDidUpdate(){
-        console.log(this.state.reposRoot)
+        
     }
     render(){
         let self = this
@@ -93,18 +96,29 @@ class content extends Component {
       return <Loading loading={true}/>
     }else if(this.state.aaa===true){   
          return (  
+             <div>
+                 <MuiThemeProvider>
+                     <AppBar title={<span>{this.state.fileName}</span>}
+                             iconElementLeft={<span></span>}
+                     />
+                     </MuiThemeProvider>
              <div style={style}>
-                 <pre className="hljs">
+                 <pre className="hljs" >
                     <code dangerouslySetInnerHTML={{__html:hijs.highlightAuto(this.state.fileContent).value}}>
                     </code>
                  </pre>                      
              </div>
+             </div>
          )
      }else{
         return (
-            <div style={style}>
+            <div >
                 <MuiThemeProvider>
-                    <List>
+                    <div>
+                        <AppBar title={<span>{this.state.fileName}</span>}
+                                iconElementLeft={<span></span>}
+                        />
+                    <List style={style}>
                         {this.state.reposRoot.map((lis,index) => {
                             return <Link to={`${self.props.match.url}/${lis.name}`} key={index}>
                                     <ListItem  
@@ -115,7 +129,8 @@ class content extends Component {
                                             />
                                 </Link>           
                         })}
-                    </List>        
+                    </List> 
+                    </div>       
                 </MuiThemeProvider>
             </div>
             )

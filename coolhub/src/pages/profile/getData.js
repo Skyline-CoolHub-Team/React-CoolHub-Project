@@ -71,7 +71,7 @@ export function getUserRepos(self,owner){
           let reposList = []
             console.log(res)
              res.data.map(lis => {
-                 reposList.push({name:lis.name,desc:lis.description})
+                 reposList.push({name:lis.name,desc:lis.description,full_name: lis['full_name']})
              })
              self.setState({reposList:reposList,loading:true})
       })

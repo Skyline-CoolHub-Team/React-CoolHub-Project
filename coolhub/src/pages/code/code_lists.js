@@ -5,12 +5,14 @@ import React, { Component } from 'react'
 import {Link} from 'react-router-dom'
 import {getReposContentList,getfileContent} from './getCodeData'
 import Loading from '../../components/loading'
+import AppBar from 'material-ui/AppBar';
 const style ={
   position:'fixed',
   bottom:'56px',
   top:'64px',
   width:'100%',
-  overflow:'auto'
+  overflow:'auto',
+  textAlign: 'left'
 
 }
 console.log(123)
@@ -25,6 +27,7 @@ class reposContent extends Component {
         this.fileType = this.fileType.bind(this)
         let idx = this.props.match.params.idx
         let list = JSON.parse(localStorage.getItem('collectionList'))
+        this.repoName = list[idx].obj.repo
         getReposContentList(this,list[idx].obj.owner,list[idx].obj.repo,'',list[idx].obj.branch)
     }
     fileType(obj){
@@ -37,15 +40,17 @@ class reposContent extends Component {
         }
         
     }
-     componentDidMount(){
-         
-     }
     render(){
         let self = this      
             return (
-             <div style={style}>
-            <MuiThemeProvider>    
-                <List style={{textAlign: 'left'}}>
+             <div >
+            <MuiThemeProvider> 
+                <div>  
+                    <AppBar title={<span>{this.repoName}</span>}
+                            iconElementLeft={<span></span>}
+
+                    />
+                <List style={style}>
                     <Loading loading={this.state.loading}/>
                     {this.state.reposRoot.map((lis,index) => {
                         return <Link to={`${self.props.match.url}/${lis.name}`} key={index}>
@@ -56,7 +61,8 @@ class reposContent extends Component {
                                         />
                                 </Link>           
                     })}
-                </List>        
+                </List>  
+                </div>        
             </MuiThemeProvider>
         </div>
             ) 

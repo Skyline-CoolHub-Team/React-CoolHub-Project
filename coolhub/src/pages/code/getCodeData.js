@@ -48,10 +48,11 @@ export function getfileContent(re,owenr,repo,path,branch){
       })
       instance.get(`/repos/${owenr}/${repo}/contents/${path}`)
       .then(function (response) {  
-        console.log(response.data.type)
           if(response.data.type === 'file'){
             
-              re.setState({fileContent:b64_to_utf8(response.data.content),aaa:true,loading:false}) 
+              re.setState({fileContent:b64_to_utf8(response.data.content),aaa:true,loading:false,
+                            fileName:path.split('/')[path.split('/').length-1]
+            }) 
           }else if(response.data.type === undefined){
               let contentList =[]    
               response.data.map(lis => {
@@ -65,8 +66,10 @@ export function getfileContent(re,owenr,repo,path,branch){
                       }
 
                   })
-                  console.log(contentList)
-                  re.setState({reposRoot:contentList,aaa:false,loading:false})
+                  console.log(path.split('/')[path.split('/').length-1])
+                  re.setState({reposRoot:contentList,aaa:false,loading:false,
+                                fileName:path.split('/')[path.split('/').length-1]
+                    })
                 }      
       })
       .catch(function (error) {

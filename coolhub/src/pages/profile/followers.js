@@ -19,7 +19,7 @@ const style ={
     overflow:'auto'
 }
 
-class followers extends Component {
+class Followers extends Component {
     constructor(props){
         super(props)
 
@@ -64,4 +64,4 @@ class followers extends Component {
 
 
 }
-export default followers
+export default Followers
