@@ -16,6 +16,7 @@ import AppBar from 'material-ui/AppBar';
 import Navigationleft from 'material-ui/svg-icons/navigation/apps';
 import FlatButton from 'material-ui/FlatButton';
 import Loading from '../../components/loading'
+import {passedDays} from '../../utils/tools'
 const style = {
     position:'fixed',
     bottom:'56px',
@@ -34,10 +35,11 @@ export default class publicActivity extends Component {
         super(props)
         this.state = {
             activityList:[],
-            loading:false
+            loading:false,
+            userName:localStorage.getItem('userName')
         }
         console.log(this.props.match)
-       this.props.match.params.user?getUserActivity(this,this.props.match.params.user):getUserActivity(this,'raszxcv')
+       this.props.match.params.user?getUserActivity(this,this.props.match.params.user):getUserActivity(this,this.state.userName)
     }
     
 
@@ -53,11 +55,6 @@ export default class publicActivity extends Component {
             return "star"
             break
        }
-    }
-    time(time){
-        let timestamp = new Date(time)
-        let leftDay = parseInt((Date.now() - timestamp) / 1000 / 3600 / 24)
-        return leftDay === 0 ? 'today' : leftDay + ' day ago'
     }
     render(){
         let self = this
@@ -76,7 +73,7 @@ export default class publicActivity extends Component {
                                 <ListItem
                                     key={index}      
                                     leftAvatar={<Avatar src={lis.url} />}
-                                    primaryText={self.time(lis.time)}
+                                    primaryText={passedDays(lis.time)}
                                      secondaryText={
                                         <p >
                                             <span>{lis.name} </span>

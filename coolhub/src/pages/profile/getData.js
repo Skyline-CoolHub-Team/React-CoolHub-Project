@@ -31,6 +31,7 @@ export function getUsersData(self,owner){
       instance.get(`/users/${owner}`)
       .then(function (response) {  
           console.log(response)
+          
             self.setState({avatarUrl:response.data.avatar_url,
                            userName:response.data.login})       
       })
