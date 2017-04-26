@@ -19,7 +19,7 @@ const style ={
   textAlign:'left'
 
 }
-let a = JSON.parse(localStorage.getItem('collectionList'))
+
 
 //这是仓库内容文件页面
 class content extends Component {
@@ -31,7 +31,9 @@ class content extends Component {
             aaa:undefined,
             idx:this.props.match.params.idx,
             loading:true,
-            fileName:''
+            fileName:'',
+            lis:JSON.parse(localStorage.getItem('collectionList'))
+
         }    
         // getType(this,a[this.state.idx].owner,a[this.state.idx].repo,this.props.match.params['0'],a[this.state.idx].branch)
     }
@@ -40,7 +42,7 @@ class content extends Component {
         
     }
     getContentList(path){
-            getfileContent(this,a[this.state.idx].obj.owner,a[this.state.idx].obj.repo,path,a[this.state.idx].obj.branch)             
+            getfileContent(this,this.state.lis[this.state.idx].obj.owner,this.state.lis[this.state.idx].obj.repo,path,this.state.lis[this.state.idx].obj.branch)             
     }
     //判断文件类型,
     fileType(obj){
@@ -75,14 +77,13 @@ class content extends Component {
     }
     componentDidMount(){
         hijs.initHighlightingOnLoad()  
-        getfileContent(this,a[this.state.idx].obj.owner,a[this.state.idx].obj.repo,this.props.match.params['0'],a[this.state.idx].obj.branch) 
+        getfileContent(this,this.state.lis[this.state.idx].obj.owner,this.state.lis[this.state.idx].obj.repo,this.props.match.params['0'],this.state.lis[this.state.idx].obj.branch) 
         this.mounted =false
         // 监听浏览器后退事件,重新获取数据
         window.addEventListener('popstate',()=>{
             //防止组件卸载后由异步使用setState造成的错误
             if(this.mounted===false){
-                console.log(this.props.match)
-                getfileContent(this,a[this.state.idx].obj.owner,a[this.state.idx].obj.repo,this.props.match.params['0'],a[this.state.idx].obj.branch)
+                getfileContent(this,this.state.lis[this.state.idx].obj.owner,this.state.lis[this.state.idx].obj.repo,this.props.match.params['0'],this.state.lis[this.state.idx].obj.branch)
             } 
             return
         }) 

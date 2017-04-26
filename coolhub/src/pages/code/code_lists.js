@@ -26,6 +26,8 @@ class reposContent extends Component {
         }
         this.fileType = this.fileType.bind(this)
         
+        
+        
     }
     fileType(obj){
         let reg = /\..+/
