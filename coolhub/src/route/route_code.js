@@ -11,8 +11,6 @@ const CodeRoute = (props) => (
     <div>
       <CodeAppBar />
       <Route exact path={`${props.match.url}`} component={ Code } />
-      {/*<Route path={`${props.match.url}/:owner?/:repo`} component={ Readme } />*/}
-      <Route path={`${props.match.url}`} component={ Test } />
       <CHBottomNavigation index={0}/>
     </div>
 )
