@@ -28,3 +28,9 @@
 - axios
 - firebase
 - pubsub-js
+
+## demo
+主要页面截图都保存在doc文件夹下,这里只展示首页.
+
+![demo1](https://github.com/Skyline-CoolHub-Team/React-CoolHub-Project/blob/master/doc/demo1.png?raw=true)
+
