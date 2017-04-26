@@ -13,7 +13,6 @@ const style ={
   width:'100%',
   overflow:'auto',
   textAlign: 'left'
-
 }
 console.log(123)
 //这是仓库内容页面
@@ -55,8 +54,8 @@ class reposContent extends Component {
                             iconElementLeft={<span></span>}
 
                     />
-                <List style={style}>
                     <Loading loading={this.state.loading}/>
+                <List style={style}>
                     {this.state.reposRoot.map((lis,index) => {
                         return <Link to={`${self.props.match.url}/${lis.name}`} key={index}>
                                 <ListItem  

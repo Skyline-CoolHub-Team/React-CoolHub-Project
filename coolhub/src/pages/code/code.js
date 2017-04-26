@@ -100,7 +100,7 @@ class CodeLists extends Component {
         <div>
         <Loading loading={this.state.loading} />
         <CodeAppBar/>
-        <List>
+        <List style={{ height: 'calc(100vh - 72px - 56px)', paddingBottom: 76, paddingTop: 76}}>
           {listitems}
         </List>
         </div>

@@ -140,6 +140,7 @@ class CodeAppBar extends Component {
       <MuiThemeProvider>
         <div>
         <AppBar
+          style={{position: 'fixed', top: 0, left: 0}}
           title={<span>Code</span>}
           iconElementRight={ <FlatButton  label={this.state.isEdit ? 'Edit' : 'Done'} onClick={this.state.showEdit?this.handleEdit:null}/> }
           iconElementLeft={
