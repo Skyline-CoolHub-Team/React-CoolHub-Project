@@ -25,10 +25,7 @@ class reposContent extends Component {
             loading:true
         }
         this.fileType = this.fileType.bind(this)
-        let idx = this.props.match.params.idx
-        let list = JSON.parse(localStorage.getItem('collectionList'))
-        this.repoName = list[idx].obj.repo
-        getReposContentList(this,list[idx].obj.owner,list[idx].obj.repo,'',list[idx].obj.branch)
+        
     }
     fileType(obj){
         let reg = /\..+/
@@ -39,6 +36,12 @@ class reposContent extends Component {
             return 'code'
         }
         
+    }
+    componentDidMount(){
+        let idx = this.props.match.params.idx
+        let list = JSON.parse(localStorage.getItem('collectionList'))
+        this.repoName = list[idx].obj.repo
+        getReposContentList(this,list[idx].obj.owner,list[idx].obj.repo,'',list[idx].obj.branch)
     }
     render(){
         let self = this      

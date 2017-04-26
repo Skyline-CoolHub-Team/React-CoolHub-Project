@@ -36,17 +36,7 @@ class content extends Component {
         // getType(this,a[this.state.idx].owner,a[this.state.idx].repo,this.props.match.params['0'],a[this.state.idx].branch)
     }
     componentWillMount(){
-        getfileContent(this,a[this.state.idx].obj.owner,a[this.state.idx].obj.repo,this.props.match.params['0'],a[this.state.idx].obj.branch) 
-        this.mounted =false
-        // 监听浏览器后退事件,重新获取数据
-        window.addEventListener('popstate',()=>{
-            //防止组件卸载后由异步使用setState造成的错误
-            if(this.mounted===false){
-                console.log(this.props.match)
-                getfileContent(this,a[this.state.idx].obj.owner,a[this.state.idx].obj.repo,this.props.match.params['0'],a[this.state.idx].obj.branch)
-            } 
-            return
-        })
+        
         
     }
     getContentList(path){
@@ -84,7 +74,18 @@ class content extends Component {
         
     }
     componentDidMount(){
-        hijs.initHighlightingOnLoad()   
+        hijs.initHighlightingOnLoad()  
+        getfileContent(this,a[this.state.idx].obj.owner,a[this.state.idx].obj.repo,this.props.match.params['0'],a[this.state.idx].obj.branch) 
+        this.mounted =false
+        // 监听浏览器后退事件,重新获取数据
+        window.addEventListener('popstate',()=>{
+            //防止组件卸载后由异步使用setState造成的错误
+            if(this.mounted===false){
+                console.log(this.props.match)
+                getfileContent(this,a[this.state.idx].obj.owner,a[this.state.idx].obj.repo,this.props.match.params['0'],a[this.state.idx].obj.branch)
+            } 
+            return
+        }) 
     
     }
     componentDidUpdate(){

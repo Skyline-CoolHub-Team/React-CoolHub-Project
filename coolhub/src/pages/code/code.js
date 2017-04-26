@@ -107,7 +107,13 @@ class CodeLists extends Component {
       </MuiThemeProvider>
     )
     : (
+
+      <MuiThemeProvider>
+        <div>
+      <CodeAppBar/>
       <h1 style={{fontSize: '24px', padding: 10, marginTop: 70}}>Please sign in to checkout your collection code lists here.</h1>
+      </div>
+      </MuiThemeProvider>
     )
   }
 }
