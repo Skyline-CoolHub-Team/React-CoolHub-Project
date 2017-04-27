@@ -20,6 +20,7 @@
 |-|-|
 |skyline-123|整体项目结构,timeline,stars,readme页面开发.|
 |raszxcv|主要负责突破难点code页面和profile页面,推进整体项目进程.|
+|Cheryl|贡献了404页面的可爱插图,感谢好朋友的支持.|
 |skyline-123 && raszxcv|技术选型,修复bug.|
 
 ## 技术
